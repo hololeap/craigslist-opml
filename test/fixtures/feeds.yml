@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  feed_url: MyString
+  range_min: 9.99
+  range_max: 9.99
+  search_string: MyString
+
+two:
+  feed_url: MyString
+  range_min: 9.99
+  range_max: 9.99
+  search_string: MyString

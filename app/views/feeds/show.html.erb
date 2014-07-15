@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Feed url:</strong>
+  <%= @feed.feed_url %>
+</p>
+
+<p>
+  <strong>Range min:</strong>
+  <%= @feed.range_min %>
+</p>
+
+<p>
+  <strong>Range max:</strong>
+  <%= @feed.range_max %>
+</p>
+
+<p>
+  <strong>Search string:</strong>
+  <%= @feed.search_string %>
+</p>
+
+<%= link_to 'Edit', edit_feed_path(@feed) %> |
+<%= link_to 'Back', feeds_path %>

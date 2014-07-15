@@ -1,0 +1,2 @@
+change_html('#<%= j @dropdown_id %>', '<%= j render partial: @partial, locals: {items: @item.children} %>');
+$('#<%= j @dropdown_id %>').slideToggle('slow');

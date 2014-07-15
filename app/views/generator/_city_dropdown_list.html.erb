@@ -1,0 +1,21 @@
+<% items.each do |item| %>
+	<% klass = item.class.name %>
+	<% link_id = "#{klass.downcase}_#{item.id}_link" %>
+	<% dropdown_id = "#{klass.downcase}_#{item.id}_dropdown"%>
+
+  <% link = lambda {|text| link_to text, get_list_path(item.id, class: klass, partial: 'city_dropdown_list'), id: link_id, remote: true} %>
+  <% label = label klass.downcase, item.id, item.name %>
+
+  <% if item.has_children? %>
+	  <p>
+      <%= check_box klass.downcase, "#{item.id}[chosen]", {}, 'true', 'false' %>
+      <%= link.call label(klass.downcase, "#{item.id}[chosen]", item.name) %>
+    </p>
+	  <div class="dropdown" id="<%= dropdown_id %>"></div>
+  <% else %>
+    <p>
+      <%= check_box klass.downcase, "#{item.id}[chosen]", {}, 'true', 'false' %>
+      <%= label klass.downcase, "#{item.id}[chosen]", item.name %>
+    </p>
+  <% end %>
+<% end %>

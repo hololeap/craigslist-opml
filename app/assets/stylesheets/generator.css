@@ -1,0 +1,39 @@
+main {
+  display: table;
+  width: 100%;
+}
+
+section {
+  display: table-cell;
+  width: 33%;
+  border: 1px solid black;
+  margin: 20px;
+}
+
+#categories {
+  width: 500px;
+}
+
+.dropdown, .search_box {
+  display: none;
+  margin: 0 0 0 20px;
+}
+
+.dropdown {
+  width: 400px;
+}
+
+.search_box input {
+  width: 100px;
+}
+
+h1, p {
+  margin: 0;
+}
+
+
+.search_icon {
+  margin-left: 5px;
+  width: 10px;
+  height: 12px;
+}

@@ -1,0 +1,31 @@
+<h1>Listing feeds</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feed url</th>
+      <th>Range min</th>
+      <th>Range max</th>
+      <th>Search string</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @feeds.each do |feed| %>
+      <tr>
+        <td><%= feed.feed_url %></td>
+        <td><%= feed.range_min %></td>
+        <td><%= feed.range_max %></td>
+        <td><%= feed.search_string %></td>
+        <td><%= link_to 'Show', feed %></td>
+        <td><%= link_to 'Edit', edit_feed_path(feed) %></td>
+        <td><%= link_to 'Destroy', feed, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Feed', new_feed_path %>

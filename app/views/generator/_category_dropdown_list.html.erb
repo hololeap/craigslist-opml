@@ -1,0 +1,29 @@
+<% items.each do |item| %>
+	<% klass = 'Category' %>
+	<% link_id = "category_#{item.id}_link" %>
+	<% dropdown_id = "category_#{item.id}_dropdown"%>
+
+  <% link_path = get_list_path(item.id, class: :Category, partial: 'category_dropdown_list') %>
+  <% link_opts = { id: link_id, remote: true } %>
+  <% link = lambda {|text, opts = {}| link_to text, link_path, link_opts.merge(opts)} %>
+
+  <% check_box_id = "#{item.id}[chosen]" %>
+  <% check_box = check_box(:category, check_box_id, {}, 'true', 'false') %>
+  <% label = label(:category, check_box_id, item.name) %>
+
+  <p>
+    <%= check_box %>
+    <%= item.has_children? ? link.call(label) : label %>
+    <% if item.search_fields.count > 0 %>
+      <% image =  image_tag("search_icon.png", class: 'search_icon') %> 
+      <%= link_to image, get_search_path(item.id), id: "search_#{item.id}_link", class: 'search_link',  remote: true %>
+    <% end %>
+  </p>
+  <% if item.search_fields.count > 0 %>
+    <div class="search_box" id="<%= "search_#{item.id}_box" %>"></div> 
+  <% end %>
+  <% if item.has_children? %>
+	  <div class="dropdown" id="<%= dropdown_id %>"></div>
+  <% end %>
+    
+<% end %>

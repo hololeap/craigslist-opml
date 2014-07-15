@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  value: MyString
+  search_field_id: 
+  feed_id: 
+
+two:
+  value: MyString
+  search_field_id: 
+  feed_id: 

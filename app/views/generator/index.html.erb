@@ -1,0 +1,13 @@
+<main>
+  <%= form_tag create_path do %>
+    <section id="regions">
+      <%= render partial: 'city_dropdown_list', locals: {items: @regions} %>
+    </section>
+    <section id="categories">
+      <%= render partial: 'category_dropdown_list', locals: {items: @categories} %>
+    </section>
+    <section id="creation">
+      <%= submit_tag "Create OPML File" %>
+    </section>
+  <% end %>
+</main>
