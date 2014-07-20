@@ -1,0 +1,1 @@
+OpenSSL::X509::DEFAULT_CERT_FILE = 'C:/Ruby200-x64/cacert.pem'
