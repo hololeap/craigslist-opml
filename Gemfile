@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-ruby '2.1.2'
 gem 'rails', '4.1.4'
 gem 'pg'
 gem 'sass-rails', '~> 4.0.3'
@@ -19,3 +18,4 @@ gem 'rdf'
 gem 'linkeddata'
 
 gem 'rails_12factor', group: :production
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
