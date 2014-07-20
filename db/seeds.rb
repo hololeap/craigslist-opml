@@ -68,6 +68,10 @@ end
 sf = SearchField.create_with_type :text, {name: 'query'}, name: 'Search query', search_attribute: 'title_body'
 Category.roots.each {|c| c.search_fields << sf }
 
+# Some have specialized search fields
+sf = SearchField.create_with_type :range, {min_name: 'minAsk', max_name: 'maxAsk'}, name: 'Price', search_attribute: 'price'
+Category.find_by_path('sss').search_fields << sf
+
 # Every category has a basic format for the titles of its posts 
 Category.roots.update_all post_title_regex: '\s*(\(([^)]+)\))?[^)]*$', post_title_matches: 'location,2'
 
