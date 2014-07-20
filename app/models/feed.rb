@@ -66,8 +66,7 @@ class Feed < ActiveRecord::Base
         post = Post.create! url: item.link, title: ad.title, body: ad.body, feed: self
       end
 
-      mc = meets_criteria?(post, search_values)
-      any_kept ||= true
+      not meets_criteria?(post, search_values)
     end
   end
 
