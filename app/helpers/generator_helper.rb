@@ -12,7 +12,7 @@ module GeneratorHelper
        end
   end
 
-  def search_range_form_elements(field)
+  def search_range_form_elements(category, field)
     range = field.field
     min_id = search_element_id(category, field, range.min_name)
     max_id = search_element_id(category, field, range.max_name)
