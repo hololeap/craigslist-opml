@@ -72,9 +72,7 @@ Category.roots.each {|c| c.search_fields << sf }
 Category.roots.update_all post_title_regex: '\s*(\(([^)]+)\))?[^)]*$', post_title_matches: 'location,2'
 
 # Some have more specialized formats
-%w{jjj ggg}.each do |path|
-  Category.find_by_path(path).update! post_title_regex: '\s*(\(([^)]+)\))?\s*(\&#x0024;(\d+))?$', post_title_matches: 'location,2,price,4'
-end
+Category.find_by_path('sss').update! post_title_regex: '\s*(\(([^)]+)\))?\s*(\&#x0024;(\d+))?$', post_title_matches: 'location,2,price,4'
 
 rescue => e
 binding.pry
