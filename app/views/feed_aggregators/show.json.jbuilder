@@ -1,1 +1,1 @@
-json.extract! @feed_aggregator, :id, :created_at, :updated_at
+json.extract! @feed_aggregator, :id, :name, :created_at, :updated_at

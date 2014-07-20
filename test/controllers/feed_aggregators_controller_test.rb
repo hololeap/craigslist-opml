@@ -18,7 +18,7 @@ class FeedAggregatorsControllerTest < ActionController::TestCase
 
   test "should create feed_aggregator" do
     assert_difference('FeedAggregator.count') do
-      post :create, feed_aggregator: {  }
+      post :create, feed_aggregator: { name: @feed_aggregator.name }
     end
 
     assert_redirected_to feed_aggregator_path(assigns(:feed_aggregator))
@@ -35,7 +35,7 @@ class FeedAggregatorsControllerTest < ActionController::TestCase
   end
 
   test "should update feed_aggregator" do
-    patch :update, id: @feed_aggregator, feed_aggregator: {  }
+    patch :update, id: @feed_aggregator, feed_aggregator: { name: @feed_aggregator.name }
     assert_redirected_to feed_aggregator_path(assigns(:feed_aggregator))
   end
 

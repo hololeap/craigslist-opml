@@ -71,6 +71,6 @@ class FeedAggregatorsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def feed_aggregator_params
-      params[:feed_aggregator]
+      params[:feed_aggregator].permit(:name)
     end
 end
