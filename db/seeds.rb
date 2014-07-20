@@ -25,7 +25,7 @@ end
 
 subcities = []
 
-City.all.sort_by {|c| c == sfbay ? -1 : c.id }.with_progress('Fetching cities') do |city|
+City.all.with_progress('Fetching subcities') do |city|
   Progress.note = city.url
 
   page = Craigslist.get_and_retry(m, city.url)
@@ -63,6 +63,19 @@ page.categories.with_progress('Parsing categories') do |category|
     end
   end
 end
+
+# Every category has the option to search for a string in title + body
+sf = SearchField.create_with_type :text, {name: 'query'}, name: 'Search query', search_attribute: 'title_body'
+Category.roots.each {|c| c.search_fields << sf }
+
+# Every category has a basic format for the titles of its posts 
+Category.roots.update_all post_title_regex: '\s*(\(([^)]+)\))?[^)]*$', post_title_matches: 'location,2'
+
+# Some have more specialized formats
+%w{jjj ggg}.each do |path|
+  Category.find_by_path(path).update! post_title_regex: '\s*(\(([^)]+)\))?\s*(\&#x0024;(\d+))?$', post_title_matches: 'location,2,price,4'
+end
+
 rescue => e
 binding.pry
 raise e

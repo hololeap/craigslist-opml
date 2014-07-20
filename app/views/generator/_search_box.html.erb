@@ -1,6 +1,6 @@
 <ul>
   <% @item.search_fields.each do |field| %>
     <li><%= field.name.humanize %>:</li>
-    <%= search_form_elements(field) %>
+    <%= search_form_elements(@item, field) %>
   <% end %>
 </ul>

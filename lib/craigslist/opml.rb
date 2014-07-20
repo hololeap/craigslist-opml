@@ -1,7 +1,7 @@
 module Craigslist::OPML
   def self.create(cities, categories)
     directory = city_directory(cities)
-    ::OPML.new do |xml|
+    ::OPML.new('Craigslist OPML') do |xml|
       xml.outline text: 'Craigslist' do 
         if categories.size == 1
           category = categories.first

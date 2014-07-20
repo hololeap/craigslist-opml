@@ -1,0 +1,23 @@
+<h1>Listing feed_aggregators</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @feed_aggregators.each do |feed_aggregator| %>
+      <tr>
+        <td><%= link_to 'Show', feed_aggregator %></td>
+        <td><%= link_to 'Edit', edit_feed_aggregator_path(feed_aggregator) %></td>
+        <td><%= link_to 'Destroy', feed_aggregator, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Feed aggregator', new_feed_aggregator_path %>

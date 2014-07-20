@@ -24,6 +24,13 @@ class GeneratorController < ApplicationController
       end
     end
 
+
+    if params[:commit] == "Create new aggregator"
+      FeedAggregator.create_from(cities, categories)
+      render partial: 'feed_aggregators_redirect'
+      return
+    end
+
     send_data Craigslist::OPML.create(cities, categories).to_xml, 
               filename: 'craigslist.opml',
               type: 'application/xml'

@@ -1,10 +1,14 @@
 class CreateCategories < ActiveRecord::Migration
   def change
     create_table :categories do |t|
-      t.string :name, null: false, default: ''
+      t.string :name
       t.string :path
       t.string :type
-      t.belongs_to :category, index: true
+
+      t.string :post_title_regex
+      t.string :post_title_matches
+
+      t.references :category
 
       t.timestamps
     end

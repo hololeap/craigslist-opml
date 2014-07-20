@@ -15,13 +15,7 @@ class Post < ActiveRecord::Base
   title_attribute :price, :to_f
   title_attribute :location
 
-  def contains?(string, case_sensitive = false)
-    [title, body].any? do |x|
-      if case_sensitive
-        x.include? string
-      else
-        x.downcase.include? string.downcase
-      end
-    end
+  def title_body
+    title + body
   end
 end

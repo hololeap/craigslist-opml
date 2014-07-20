@@ -3,7 +3,7 @@ class CreateSearchOptions < ActiveRecord::Migration
     create_table :search_options do |t|
       t.string :name
       t.integer :order
-      t.belongs_to :search_select, index: true
+      t.references :search_select
 
       t.timestamps
     end

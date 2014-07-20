@@ -1,19 +1,18 @@
 module GeneratorHelper
 
-  def search_form_elements(field)
+  def search_form_elements(category, field)
     additive_tag :ul, 
       *case field.field_type
-         when "SearchRange"
-           search_range_form_elements(field)
-         when "SearchText"
-           search_text_form_elements(field)
+         when "SearchTypes::Range"
+           search_range_form_elements(category, field)
+         when "SearchTypes::Text"
+           search_text_form_elements(category, field)
          else
            raise "Search form not implemented for #{field.field_type.inspect}"
        end
   end
 
   def search_range_form_elements(field)
-    category = field.category
     range = field.field
     min_id = search_element_id(category, field, range.min_name)
     max_id = search_element_id(category, field, range.max_name)
@@ -26,8 +25,7 @@ module GeneratorHelper
        number_field(:category, max_id, step: 0.01)) ]
   end
 
-  def search_text_form_elements(field)
-    category = field.category
+  def search_text_form_elements(category, field)
     text = field.field
     id = search_element_id(category, field, text.name)
 

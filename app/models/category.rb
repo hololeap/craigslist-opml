@@ -1,6 +1,14 @@
 class Category < ActiveRecord::Base
   attr_reader :search
 
+  has_and_belongs_to_many :search_fields
+  has_many :subcategories
+  has_many :feeds
+
+  alias_method :children, :subcategories
+
+  validates :path, uniqueness: true, allow_nil: true
+
   def add_search(search)
     return if search.nil? or search.empty?
     @search ||= {}
@@ -21,11 +29,11 @@ class Category < ActiveRecord::Base
     hash.empty? ? nil : URI.encode_www_form(hash)
   end
 
-  def http_url(city)
-    if query = search_query
+  def http_url(city, include_search_query = true)
+    if include_search_query and query = search_query
       search_path = "/search/"
       search_path += "#{city.abbrev}/" if city.is_a? Subcity
-      uri = city.uri + search_path
+      uri = city.uri + search_path + path
       uri.query = query
     else
       uri = city.uri + "#{path}/"
@@ -33,12 +41,13 @@ class Category < ActiveRecord::Base
     uri.to_s
   end
 
-  def xml_url(city)
-    if search_query
-      uri = URI(http_url(city))
-      uri.query = search_query(format: :rss)
+  def xml_url(city, include_search_query = true)
+    if include_search_query and search_query
+      query = search_query(format: :rss)
+      uri = URI(http_url(city, include_search_query))
+      uri.query = query 
     else
-      uri = http_url(city) + "index.rss"
+      uri = http_url(city, include_search_query) + "index.rss"
     end
     uri.to_s
   end
@@ -50,14 +59,6 @@ class Category < ActiveRecord::Base
     Regexp.new(post_title_regex).match(string)[matches[name].to_i]
   end
 
-  has_many :subcategories
-  has_many :search_fields
-  has_many :feeds
-
-  validates :path, uniqueness: true, allow_nil: true
-
-  alias :children :subcategories
-  
   def has_children?
     subcategories.count > 0
   end

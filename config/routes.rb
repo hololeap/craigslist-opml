@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   resources :feeds
+  resources :feed_aggregators, except: :create
+
+  post 'feed_aggregators', to: 'feed_aggregators#create', as: 'create_aggregator'
 
   get 'generator/index'
   post 'generator/create', to: 'generator#create', as: 'create'

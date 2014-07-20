@@ -4,25 +4,36 @@ class Feed < ActiveRecord::Base
   belongs_to :category
   belongs_to :city
   has_many :posts
-  has_and_belongs_to_many :feed_aggregators
+  has_many :search_values
 
-  def check_for_updates
-    rss = RSS::Parser.parse(url)
+  def check_for_updates(search_values, include_search_query = true)
+    # We need to filter out invalid UTF-8
+    string = open(url).read
+    string.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
+
+    rss = RSS::Parser.parse(string)
     if new_items?(rss)
-      filter_items(rss)
+      filter_items(rss, search_values)
       return [rss, new_matching_items?(rss)]
     end
     [rss, false]
   end
 
-  def self.create_from(city, category, opts = {})
-    self.create! opts.merge(city: city, category: category, url: category.xml_url(city))
+  def self.create_from(city, category, include_search_query = true, opts = {})
+    self.create! opts.merge(city: city, 
+                            category: category, 
+                            url: category.xml_url(city, include_search_query))
+  end
+
+  def self.find_or_create_from(city, category, include_search_query = true, opts = {})
+    feed = find_by_url category.xml_url(city, include_search_query)
+    feed ||= create_from(city, category, include_search_query, opts)
   end
 
   private
 
   def new_items?(rss)
-    if rss.items.first and last_url.nil? or rss.items.first.link != last_url
+    if rss.items.first and (last_url.nil? or rss.items.first.link != last_url)
       update! last_url: rss.items.first.link
       true
     else
@@ -31,7 +42,7 @@ class Feed < ActiveRecord::Base
   end
 
   def new_matching_items?(rss)
-    if rss.items.first and last_matching_url.nil? or rss.items.first.link != last_matching_url
+    if rss.items.first and (last_matching_url.nil? or rss.items.first.link != last_matching_url)
       update! last_matching_url: rss.items.first.link
       true
     else
@@ -39,25 +50,26 @@ class Feed < ActiveRecord::Base
     end
   end
 
-  def filter_items(rss)
+  def filter_items(rss, search_values)
     rss.items.delete_if do |item|
-      post = search_string ? Post.find_by_url(item.link) : Post.new(title: item.title)
+      if search_values.any? {|sv| sv.search_field.field_type == 'SearchTypes::Text' }
+        post = Post.find_by_url item.link
+        post.feed = self if post
+      else
+        post = Post.new title: item.title, url: item.link, feed: self
+      end
 
       unless post
         ad = Craigslist::Ad.new(item.link)
-        post = Post.create! url: item.link, title: ad.title, body: ad.body, price: ad.price
+        post = Post.create! url: item.link, title: ad.title, body: ad.body, feed: self
       end
-      post.update! feed: self
-      !meets_criteria?(post)
+
+      mc = meets_criteria?(post, search_values)
+      any_kept ||= true
     end
   end
 
-  def meets_criteria?(post)
-    if post.price
-      return false if range_min and post.price < range_min
-      return false if range_max and post.price > range_max
-    end
-    return false if search_string and not post.contains? search_string
-    true
+  def meets_criteria?(post, search_values)
+    search_values.all? {|sv| sv.matching_data? post }
   end
 end
