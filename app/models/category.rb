@@ -11,12 +11,17 @@ class Category < ActiveRecord::Base
 
   def add_search(search)
     return if search.nil? or search.empty?
-    @search ||= {}
+    new_search = {}
     search.each do |field_id, hash|
+      # Delete all the pairs whose values are empty
+      hash.delete_if {|k,v| v.empty? }
+      
       field = SearchField.find(field_id)
       raise "No such SearchField with id of #{field_id}" unless field
-      @search.merge!(field => hash)
+      new_search.merge!(field => hash) unless hash.empty?
     end
+    
+    @search = new_search.empty? ? nil : new_search
   end
 
   def search_query(other = {})

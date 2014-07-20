@@ -5,15 +5,11 @@ class Craigslist::Ad
   end
 
   def title
-    @page.at('.postingtitle').text.strip
-  end
-
-  def price
-    title[/- \$(\d+)/,1].to_f
+    @page.at('.postingtitle').text.strip rescue ''
   end
 
   def body
-    @page.at('#postingbody').text.strip
+    @page.at('#postingbody').text.strip rescue ''
   end
 
   def contains?(text)

@@ -6,7 +6,9 @@ class Feed < ActiveRecord::Base
   has_many :posts
   has_many :search_values
 
-  def check_for_updates(search_values, include_search_query = true)
+  def check_for_updates(search_values = nil, include_search_query = true)
+    search_values ||= self.search_values
+    
     # We need to filter out invalid UTF-8
     string = open(url).read
     string.encode!('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
