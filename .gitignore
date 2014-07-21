@@ -1,3 +1,6 @@
+# Tests are not currently being used
+/test/
+
 *.gem
 *.rbc
 /.config

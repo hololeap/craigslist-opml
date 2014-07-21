@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  min_name: MyString
-  max_name: MyString
-
-two:
-  min_name: MyString
-  max_name: MyString
