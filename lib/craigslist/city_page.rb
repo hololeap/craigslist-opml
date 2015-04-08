@@ -13,7 +13,7 @@ module Craigslist::CityPage
   end
   
   def self.get_categories(mechanize, page)
-    page.search('#main/tr/td/div.col').map do |div|
+    page.search('#center//div.col').map do |div|
       header = div.at('h4.ban')
       header_link = header.at('a')
       OpenStruct.new name: header.text,
